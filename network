@@ -4,9 +4,19 @@ def solution(n, computers):
     for i in range(n):
         computers[i][i] = 0
     for i in range(n):
-        for j in range(n):
-            if computers[i][j] == 1 and visited[j] != 1:
-                q = []
-
-
+        if computers[i][0] == 1 and visited[i] == 0:
+            visited[i] = 1
+            answer += 1
+            q = [i] ## 현재 link에 연결된 컴퓨터(i만 확인)
+            while len(q) > 0:
+                for j in range(n):
+                    if computers[i][j] == 1 and visited[j] == 0:
+                        q.append(j)
+                        visited[j] = 1
+                del q[0]
+    answer += visited.count(0)
     return answer
+
+
+computers = [[1, 1, 0], [1, 1, 1], [0, 1, 1]]
+print(solution(3, computers))
