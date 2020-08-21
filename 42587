@@ -1,0 +1,25 @@
+from collections import deque
+
+def solution(priorities, location):
+    answer = 0
+    q = deque()
+    for i in range(len(priorities)):
+        q.append([priorities[i], 0])
+    q[location][1] = 1
+    while len(q) > 0:
+        tempMax = 0
+        for i in range(len(q)):
+            if q[i][0] > tempMax:
+                tempMax = q[i][0]
+        mostPriorty = tempMax
+        if q[0][0] < mostPriorty:
+            q.append(q[0])
+            q.popleft()
+        else:
+            if q[0][1]: # 해당 location이면
+                answer += 1
+                break
+            else:
+                q.popleft()
+                answer += 1
+    return answer
