@@ -1,0 +1,20 @@
+def solution(answers):
+    l = len(answers)
+    firstAns = [1, 2, 3, 4, 5]
+    secondAns = [2, 1, 2, 3, 2, 4, 2, 5]
+    thirdAns = [3, 3, 1, 1, 2, 2, 4, 4, 5, 5]
+    cnt = [0, 0, 0]
+    for i in range(l):
+        if answers[i] == firstAns[i % 5]:
+            cnt[0] += 1
+        if answers[i] == secondAns[i % 8]:
+            cnt[1] += 1
+        if answers[i] == thirdAns[i % 10]:
+            cnt[2] += 1
+    maxcnt = max(cnt)
+    answer = []
+    for i in range(3):
+        if cnt[i] == maxcnt:
+            answer.append(i + 1)
+    answer = sorted(answer)
+    return answer
