@@ -1,0 +1,19 @@
+from collections import deque
+
+def solution(n, computers):
+    for i in range(n):
+        computers[i][i] = 0
+    visitchk = [0] * n
+    answer = 0
+    for i in range(n):
+        if visitchk[i] == 0:
+            visitchk[i] = 1
+            answer += 1
+            q = deque([i])
+            while len(q) > 0:
+                for j in range(n):
+                    if visitchk[j] == 0 and computers[q[0]][j] == 1:
+                        visitchk[j] = 1
+                        q.append(j)
+                q.popleft()
+    return answer
