@@ -1,0 +1,32 @@
+import math
+from itertools import permutations
+
+def solution(numbers):
+    numbers = list(numbers)
+    l1 = len(numbers)
+    numList1, numList2 = [], []
+    for i in range(1, l1 + 1):
+        numList1 += list(permutations(numbers, i))
+    l2 = len(numList1)
+    answer = 0
+    for i in range(l2):
+        l3 = len(numList1[i])
+        temp = ''
+        for j in range(l3):
+            temp += numList1[i][j]
+        numList2.append(int(temp))
+    numList2 = list(set(numList2))
+    l4 = len(numList2)
+    for i in range(l4):
+        answer += chkprime(numList2[i])
+    return answer
+
+def chkprime(number):
+    std = int(math.sqrt(number))
+    if number > 1:
+        for i in range(2, std + 1):
+            if number % i == 0 and i != number:
+                return 0
+    else:
+        return 0
+    return 1
