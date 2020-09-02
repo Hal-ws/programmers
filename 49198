@@ -1,0 +1,31 @@
+from collections import deque
+
+def solution(n, edge):
+    l = len(edge)
+    q, distance = deque(), [0] * n
+    distance[0] = -1
+    matrix = [[0 for i in range(n)] for j in range(n)]
+    for i in range(l):
+        edge[i] = sorted(edge[i])
+        matrix[edge[i][0] - 1][edge[i][1] - 1] = 1
+    for i in range(n):
+        if matrix[0][i] == 1:
+            q.append(i)
+            distance[i] = 1
+    d = 2
+    while len(q) > 0:
+        lp = len(q)
+        for i in range(lp):
+            for j in range(n):
+                if matrix[q[i]][j] == 1 and distance[j] == 0:
+                    distance[j] = d
+                    q.append(j)
+        d += 1
+        for i in range(lp):
+            q.popleft()
+    maxDistance = max(distance)
+    answer = 0
+    for i in range(n):
+        if distance[i] == maxDistance:
+            answer += 1
+    return answer
