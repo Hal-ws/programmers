@@ -1,0 +1,20 @@
+def solution(tickets):
+    allPorts, lt = set(), len(tickets)
+    for i in range(lt):
+        allPorts = allPorts | set(tickets[i])
+    allPorts = sorted(list(allPorts))
+    lp = len(allPorts)
+    matrix = [[0 for i in range(lp)] for j in range(lp)]
+    for i in range(lt):
+        matrix[allPorts.index(tickets[i][0])][allPorts.index(tickets[i][1])] += 1
+    startPort = allPorts.index("ICN")
+    answer = ["ICN"]
+    for i in range(lt):
+        for j in range(lp):
+            if matrix[startPort][j] > 0:
+                matrix[startPort][j] -= 1
+                answer.append(allPorts[j])
+                startPort = j
+                break
+    print(answer)
+    return answer
