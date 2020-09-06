@@ -9,26 +9,23 @@ def solution(n, lost, reserve):
         if students[i] == 0:
             if i == 0:
                 if students[i + 1] > 1:
-                    students[i] = 1
                     students[i + 1] -= 1
                 else:
                     answer -= 1
             elif i == n - 1:
                 if students[i - 1] > 1:
-                    students[i] = 1
                     students[i - 1] -= 1
                 else:
                     answer -= 1
             else:
                 if students[i - 1] > 1 and students[i + 1] <= 1:
                     students[i - 1] -= 1
-                    students[i] += 1
                 elif students[i - 1] <= 1 and students[i + 1] > 1:
                     students[i + 1] -= 1
-                    students[i] += 1
                 elif students[i - 1] > 1 and students[i + 1] > 1:
                     students[i - 1] -= 1
-                    students[i] += 1
                 else:
                     answer -= 1
     return answer
+
+solution(3, [3], [1])
