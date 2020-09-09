@@ -11,7 +11,9 @@ def solution(name):
         answer += diff[idx]
         diff[idx] = 0
         lDistance, rDistance = nextleft(diff, idx), nextright(diff, idx)
-        if rDistance < lDistance:
+        if rDistance == None:
+            break
+        if rDistance <= lDistance:
             answer += rDistance
             idx += rDistance
         else:
@@ -43,4 +45,3 @@ def nextleft(diff, idx):
     for i in range(l - 1, -1, -1):
         if diff[i] != 0:
             return idx + l - i
-solution("JAN")
