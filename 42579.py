@@ -12,7 +12,6 @@ def solution(genres, plays):
         else:
             genreSum[j][0] += plays[i][1]
     genreSum = sorted(genreSum[1:len(genreSum)], reverse=True)
-    print('genreSum: %s' %genreSum)
     lg, answer = len(genreSum), []
     for i in range(lg):
         for j in range(lp):
@@ -27,7 +26,6 @@ def solution(genres, plays):
                 flag, end = 1, lp
                 break
         answer += choicetwosongs(sorted(plays[start:end], reverse=True), end - start)
-    print(answer)
     return answer
 
 
@@ -42,7 +40,7 @@ def choicetwosongs(songs, l):
             break
     if flag:
         temp.append(songs[start - 1][2])
-        if start > 2:
+        if start >= 2:
             temp.append(songs[start - 2][2])
         else:
             for j in range(start + 1, l):
