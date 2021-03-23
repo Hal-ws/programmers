@@ -5,8 +5,6 @@ def solution(lines):
         day, eTime, pTime = map(str, l.split())
         timeTable.append(getmt(eTime, pTime))
     timeTable.sort()
-    print(timeTable[0])
-    print(timeTable[1])
     for i in range(len(timeTable)):
         tmpAns = 1 # 자기자신은 일단 들어감
         pStartT, pEndT = timeTable[i][1], timeTable[i][0]
