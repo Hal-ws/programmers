@@ -9,7 +9,7 @@ def solution(lines):
         tmpAns = 1 # 자기자신은 일단 들어감
         pStartT, pEndT = timeTable[i][1], timeTable[i][0]
         for j in range(i + 1, len(timeTable)):
-            if timeTable[j][1] <= pEndT + 1000:
+            if timeTable[j][1] <= pEndT + 999:
                 tmpAns += 1
         if answer < tmpAns:
             answer = tmpAns
