@@ -6,7 +6,7 @@ def solution(lines):
     for i in range(l):
         day, end, time = map(str, lines[i].split())
         timeTable.append([int(end[:2]), int(end[3:5]), int(end[6:8]), float('0' + end[8:12])])
-        timeTable[i] = getsecondscale(timeTable[i], float(time[:len(time) - 1]))
+        timeTable[i] = getsecondscale(timeTable[i], float(time[:len(time) - 1])) + 4
     timeTable = sorted(timeTable)
     for i in range(l):
         print(timeTable[i])
