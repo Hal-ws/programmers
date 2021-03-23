@@ -1,41 +1,44 @@
-from copy import deepcopy
-
 def solution(lines):
-    l = len(lines)
-    timeTable, processingTimes = [], []
-    for i in range(l):
-        day, end, time = map(str, lines[i].split())
-        timeTable.append([int(end[:2]), int(end[3:5]), int(end[6:8]), float('0' + end[8:12])])
-        timeTable[i] = getsecondscale(timeTable[i], float(time[:len(time) - 1])) + 4
-    timeTable = sorted(timeTable)
-    for i in range(l):
-        print(timeTable[i])
     answer = 0
-    for i in range(l):
-        firstProcessEnd = i
-        untilEndFlag = 1
-        for j in range(i + 1, l):
-            if round(timeTable[j][1] - timeTable[firstProcessEnd][0], 3) >= 1: ##
-                lastProcessStart = j - 1
-                untilEndFlag = 0
+    timeTable = []
+    for l in lines:
+        day, eTime, pTime = map(str, l.split())
+        timeTable.append(getmt(eTime, pTime))
+    timeTable.sort()
+    for t in timeTable:
+        print(t)
+    for i in range(len(timeTable)):
+        tmpAns = 1 # 자기자신은 일단 들어감
+        pStartT, pEndT = timeTable[i][1], timeTable[i][0]
+        for j in range(i + 1, len(timeTable)):
+            if timeTable[j][1] <= pEndT + 999:
+                tmpAns += 1
+            else:
                 break
-        if untilEndFlag:
-            temp = l - firstProcessEnd
-        else:
-            temp = lastProcessStart - firstProcessEnd + 1
-        if answer <= temp:
-            answer = temp
-    print(answer)
+        if answer < tmpAns:
+            answer = tmpAns
     return answer
 
 
-def getsecondscale(endTime, processingTime):
-    processingTime = [processingTime // 1, round(processingTime % 1, 3)]
-    temp = deepcopy(endTime)
-    startTime = round(temp[0] * pow(60, 2) + temp[1] * pow(60, 1) + temp[2] + temp[3] - processingTime[0] - processingTime[1] + 0.001, 3)
-    endTime = endTime[0] * pow(60, 2) + endTime[1] * pow(60, 1) + endTime[2] + endTime[3]
-    return [endTime, startTime]
+def getmt(eTime, pTime):
+    baseT = 4000 # 4000 밀리초에서 시작 (전날에 시작해서 넘어온 데이터 있음)
+    h, m, s = map(str, eTime.split(':'))
+    s, ms = map(str, s.split('.'))
+    pTime = int(float(pTime[:len(pTime) - 1]) * 1000) - 1
+    ms = '0.' + ms
+    end = baseT + (int(h) * 3600000 + int(m) * 60000 + int(s) * 1000 + int(float(ms) * 1000))
+    return [end, end - pTime]
 
 
-
-solution(["2016-09-15 01:00:04.002 2.0s", "2016-09-15 01:00:07.000 2s"])
+print(solution( [
+"2016-09-15 20:59:57.421 0.351s",
+"2016-09-15 20:59:58.233 1.181s",
+"2016-09-15 20:59:58.299 3s",
+"2016-09-15 20:59:58.688 1.041s",
+"2016-09-15 20:59:59.591 1.412s",
+"2016-09-15 21:00:00.464 1.466s",
+"2016-09-15 21:00:00.741 1.581s",
+"2016-09-15 21:00:00.748 2.31s",
+"2016-09-15 21:00:00.966 0.381s",
+"2016-09-15 21:00:02.066 2.62s"
+]))
