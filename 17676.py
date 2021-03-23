@@ -5,16 +5,14 @@ def solution(lines):
         day, eTime, pTime = map(str, l.split())
         timeTable.append(getmt(eTime, pTime))
     timeTable.sort()
-    for t in timeTable:
-        print(t)
+    print(timeTable[0])
+    print(timeTable[1])
     for i in range(len(timeTable)):
         tmpAns = 1 # 자기자신은 일단 들어감
         pStartT, pEndT = timeTable[i][1], timeTable[i][0]
         for j in range(i + 1, len(timeTable)):
-            if timeTable[j][1] <= pEndT + 999:
+            if timeTable[j][1] <= pEndT + 1000:
                 tmpAns += 1
-            else:
-                break
         if answer < tmpAns:
             answer = tmpAns
     return answer
@@ -28,17 +26,3 @@ def getmt(eTime, pTime):
     ms = '0.' + ms
     end = baseT + (int(h) * 3600000 + int(m) * 60000 + int(s) * 1000 + int(float(ms) * 1000))
     return [end, end - pTime]
-
-
-print(solution( [
-"2016-09-15 20:59:57.421 0.351s",
-"2016-09-15 20:59:58.233 1.181s",
-"2016-09-15 20:59:58.299 3s",
-"2016-09-15 20:59:58.688 1.041s",
-"2016-09-15 20:59:59.591 1.412s",
-"2016-09-15 21:00:00.464 1.466s",
-"2016-09-15 21:00:00.741 1.581s",
-"2016-09-15 21:00:00.748 2.31s",
-"2016-09-15 21:00:00.966 0.381s",
-"2016-09-15 21:00:02.066 2.62s"
-]))
