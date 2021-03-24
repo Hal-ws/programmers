@@ -5,8 +5,7 @@ def solution(n, times):
     while left <= right:
         mid = (left + right) // 2
         if chkvalid(n, times, mid): # 가능함
-            if mid < answer:
-                answer = mid
+            answer = mid
             right = mid - 1
         else: # 불가능함. 시간 더 키워야함
             left = mid + 1
