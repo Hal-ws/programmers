@@ -40,5 +40,3 @@ def chk(i, j, n): # i, j 배치가 가능한지 확인
         if board[y][x] == 1:
             return 0
     return 1
-
-solution(12)
