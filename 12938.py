@@ -5,6 +5,5 @@ def solution(n, s):
     answer = [average for i in range(n)]
     s -= (average * n)
     for i in range(s):
-        answer[i] += 1
-    answer.sort()
+        answer[n - i - 1] += 1
     return answer
