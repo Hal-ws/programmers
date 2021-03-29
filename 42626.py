@@ -1,16 +1,21 @@
+import heapq
+
+
 def solution(scoville, K):
-    ls, scoville, answer, endflag = len(scoville), sorted(scoville), 0, 0
-    for i in range(ls - 1):
-        if scoville[i] < K:
-            if scoville[i] <= scoville[i + 1]:
-                scoville[i + 1] = scoville[i] + scoville[i + 1] * 2
-            else:
-                scoville[i + 1] = scoville[i] * 2 + scoville[i + 1]
-            answer += 1
-            scoville[i] = None
-            print(scoville)
-        else:
+    answer = -1
+    heap = []
+    cnt = 0
+    for scv in scoville:
+        heapq.heappush(heap, scv)
+    while 1:
+        first = heapq.heappop(heap)
+        if first >= K:
+            answer = cnt
             break
-        if scoville[i + 1] >= K:
-            return answer
-    return -1
+        if len(heap) == 0:
+            return -1
+        second = heapq.heappop(heap)
+        mixed = first + (second * 2)
+        heapq.heappush(heap, mixed)
+        cnt += 1
+    return answer
