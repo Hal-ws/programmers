@@ -1,44 +1,52 @@
-## 시간초과한 코드...
+from _collections import deque
+
 
 def solution(n, results):
-    global board, connect
+    global win, lose
+    win = [[] for i in range(n + 1)] # i번 선수가 이긴 사람들 저장
+    lose = [[] for i in range(n + 1)] # i번 선수를 이긴사람 저장
     answer = 0
-    board = [[[0] * n,[0] * n] for i in range(n)]
-    connect = [[[], []] for i in range(n)]
     for match in results:
-        winner, loser = match[0] - 1, match[1] - 1
-        connect[winner][1].append(loser)
-        connect[loser][0].append(winner)
-    for i in range(n):
-        if connect[i][0] == []:
-            dfs([i], i, n)
-    for i in range(n):
-        tmp = [0] * n
-        for j in range(n):
-            tmp[j] += board[i][0][j]
-            tmp[j] += board[i][1][j]
-        tmp[i] = 1
-        if tmp == [1] * n:
+        a, b = match[0], match[1]
+        win[a].append(b)
+        lose[b].append(a)
+    for i in range(1, n + 1):
+        winCnt = getwincnt(i, n)
+        loseCnt = getlosecnt(i, n)
+        if winCnt + loseCnt == n - 1:
             answer += 1
     return answer
 
 
-def dfs(path, p, n): #path, 지금 player, 총 player 수
-    global board, connect
-    flag = 0 # p가 이긴 상대가 있음
-    for nxt in connect[p][1]:
-        flag = 1
-        path.append(nxt)
-        for i in range(n):
-            if board[p][0][i] == 1:
-                board[nxt][0][i] = 1
-        board[nxt][0][p] = 1
-        dfs(path, nxt, n)
-        path.pop()
-    if flag == 0:
-        for i in range(len(path) - 1, 0, -1):
-            for j in range(i - 1, -1, -1):
-                board[path[j]][1][path[i]] = 1
+def getwincnt(p, n):
+    global win
+    visit = [0 for i in range(n + 1)]
+    q = deque()
+    q.append(p)
+    visit[p] = 1
+    cnt = 0
+    while len(q) > 0:
+        cur = q.popleft()
+        for nxt in win[cur]:
+            if visit[nxt] == 0:
+                visit[nxt] = 1
+                q.append(nxt)
+                cnt += 1
+    return cnt
 
 
-print(solution(5, [[4, 3], [4, 2], [3, 2], [1, 2], [2, 5]]))
+def getlosecnt(p, n):
+    global lose
+    visit = [0 for i in range(n + 1)]
+    q = deque()
+    q.append(p)
+    visit[p] = 1
+    cnt = 0
+    while len(q) > 0:
+        cur = q.popleft()
+        for nxt in lose[cur]:
+            if visit[nxt] == 0:
+                visit[nxt] = 1
+                q.append(nxt)
+                cnt += 1
+    return cnt
