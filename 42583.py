@@ -12,7 +12,8 @@ def solution(bridge_length, weight, truck_weights):
         if W_onBridge + waiting[0] > weight: # 다음 트럭이 탑승 불가능
             while W_onBridge + waiting[0] > weight: # 탑승 가능할때까지 계속 시간 추가함
                 tmp = on_bridge.popleft()
-                curT = tmp[2] # 해당 버스가 다리를 다 건너는 시간에 맞춰 줌
+                if curT < tmp[2]:
+                    curT = tmp[2] # 해당 버스가 다리를 다 건너는 시간에 맞춰 줌
                 W_onBridge -= tmp[0]
             on_bridge.append([waiting[0], curT, curT + bridge_length])
             curT = on_bridge[-1][1] + 1
