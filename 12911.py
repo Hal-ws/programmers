@@ -1,35 +1,31 @@
-from itertools import combinations
-
-
 def solution(n):
-    answer = pow(10, 7)
-    biN = str(bin(n))
-    biN = biN[2:]
-    cnt, l = biN.count('1'), len(biN)
-    list1 = [i for i in range(l)]
-    cases = list(combinations(list1, cnt))
-    for case in cases:
-        i = 0
-        tmp = 0
-        for j in range(l):
-            if case[i] == j:
-                tmp += pow(2, case[i])
-                i += 1
-            if i == cnt:
-                break
-        if tmp > n and tmp < answer:
-            answer = tmp
-    list2 = [i for i in range(l + 1)]
-    cases = list(combinations(list2, cnt))
-    for case in cases:
-        i = 0
-        tmp = 0
-        for j in range(l + 1):
-            if case[i] == j:
-                tmp += pow(2, case[i])
-                i += 1
-            if i == cnt:
-                break
-        if tmp > n and tmp < answer:
-            answer = tmp
-    return answer
+    n = str(bin(n))
+    n = n[2:]
+    ansList = [n[i] for i in range(len(n))]
+    flag = 0
+    cnt1 = 0
+    cIdx = -1 # 0을 1로 바꿔줘야할 idx
+    for i in range(len(n) - 1, -1, -1):
+        if ansList[i] == '1':
+            flag = 1
+            cnt1 += 1
+        if ansList[i] == '0' and flag == 1:
+            cIdx = i
+            break
+    if cIdx != -1: # 자릿수 추가 불필요
+        ansList[cIdx] = '1'
+        for i in range(cIdx + 1, len(n)):
+            ansList[i] = '0'
+        for i in range(len(n) - 1, len(n) - cnt1, - 1):
+            ansList[i] = '1'
+    else:
+        ansList = ['0'] * (len(n) + 1)
+        ansList[0] = '1'
+        for i in range(len(n), len(n) + 1 - cnt1, -1):
+            ansList[i] = '1'
+    ans = 0
+    l = len(ansList)
+    for i in range(l):
+        if ansList[l - i - 1] == '1':
+            ans += pow(2, i)
+    return ans
