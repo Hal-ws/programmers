@@ -13,17 +13,13 @@ int* solution(int lottos[], size_t lottos_len, int win_nums[], size_t win_nums_l
     for (i = 0; i < 6; i++)
     {
         if (lottos[i] == 0)
-        {
             zCnt += 1;
-        }
         else
         {
             for (j = 0; j < 6; j++)
             {
                 if (lottos[i] == win_nums[j])
-                {
                     cCnt += 1;
-                }
             }
         }
     }
