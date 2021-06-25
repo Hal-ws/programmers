@@ -8,20 +8,12 @@ char* solution(int num) {
     if(num % 2) // 홀수
     {
         answer = (char*)malloc(sizeof(char) * 4);
-        answer[0] = 'O';
-        answer[1] = 'd';
-        answer[2] = 'd';
-        answer[3] = '\0';
+        answer= "Odd";
     }
     else // 짝수
     {
         answer = (char*)malloc(sizeof(char) * 5);
-        answer[0] = 'E';
-        answer[1] = 'v';
-        answer[2] = 'e';
-        answer[3] = 'n';
-        answer[4] = '\0';
+        answer = "Even";
     }
-        
     return answer;
 }
