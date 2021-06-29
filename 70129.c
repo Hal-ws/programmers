@@ -22,9 +22,6 @@ int* solution(const char* s) {
     answer[1] = 0;
     while (true)
     {
-        printf("%s\n", newS);
-        printf("answer: %d, %d\n", answer[0], answer[1]);
-        printf("length: %d\n", l);
         zCnt = 0;
         if (l == 1)
             break;
@@ -34,10 +31,9 @@ int* solution(const char* s) {
                 zCnt++;
         }
         tmpL = l - zCnt;
-        printf("tmpL: %d\n", tmpL);
         tmpL2 = tmpL;
         l = 0;
-        while (tmpL > 1)
+        while (tmpL > 0)
         {
             tmpL = tmpL / 2;
             l++;
@@ -51,19 +47,11 @@ int* solution(const char* s) {
                 newS[i] = '0';
             else
                 newS[i] = '1';
-            tmp = tmp / 2;
+            tmpL2 = tmpL2 / 2;
         }
         newS[0] = '1';
         answer[0] += 1;
         answer[1] += zCnt;
     }
     return answer;
-}
-
-
-
-int main(void)
-{
-    solution("01110");
-    return 0;
 }
