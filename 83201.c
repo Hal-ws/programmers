@@ -16,9 +16,7 @@ char* solution(int** scores, size_t scores_rows, size_t scores_cols) {
         for(int i = 0; i < scores_rows; i++)
         {
             if (i == j) // 자기자신의 평가
-            {
                 selfScore = scores[i][j];
-            }
             else
             {
                 if (scores[i][j] < minScore)
