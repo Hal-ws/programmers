@@ -1,43 +1,39 @@
 def solution(distance, rocks, n):
     left, right = 0, distance
-    rocks = sorted([0] + rocks + [distance])
     answer = 0
-    l = len(rocks)
-    print('rocks: %s' %rocks)
+    rocks.sort()
+    rocks = [0] + rocks
+    rocks.append(distance)
     while left <= right:
-        cnt = 0
-        accDis = 0
-        minDis = distance + 1
-        mid = (left + right) // 2 # 거리의 최솟값이 mid 를 만족하는지 확인
-        print('mid: %s' %mid)
-        for i in range(1, l):
-            dis = accDis + rocks[i] - rocks[i - 1]
-            print('dis: %s' %dis)
-            if dis < mid: #dis가 mid보다 작음. 바위 삭제 필요
-                if i == l - 1:
-                    cnt = n + 1
-                    break
-                print('%sth rock break' %i)
-                accDis += (rocks[i] - rocks[i - 1])
-                cnt += 1
-            else: # 바위 삭제할 필요 없음
-                accDis = 0
-                if dis < minDis:
-                    minDis = dis
-            if i == l - 1: # 도착지
-                if dis < minDis:
-                    minDis = dis
-        print('cnt, minDis: %s, %s' %(cnt, minDis))
-        if cnt > n: # 허용치 이상으로 부숨. mid를 줄여야
-            right = mid - 1
-        elif cnt < n: # 적게 부숨.
+        mid = (left + right) // 2
+        chk = chkPossible(rocks, n, mid)
+        if chk == 1: # n개를 지우고 거리의 최소값 mid가 가능함
+            answer = mid
             left = mid + 1
         else:
-            if answer < mid:
-                answer = mid
-            left = mid + 1
-        print('-----------------------')
+            right = mid - 1
     return answer
 
 
-print(solution(10, [3, 5, 6, 9], 1))
+def chkPossible(rocks, n, chkDis): # 최소 거리가 정확하게 chkDis가 돼야함
+    culDis = 0
+    minDis = rocks[-1]
+    for i in range(1, len(rocks)):
+        dis = rocks[i] - rocks[i - 1] + culDis
+        if dis < chkDis: # 최소 거리보다 작음
+            if n > 0: # 해당 바위를 삭제하고 누적 거리에 계속 추가한다
+                n -= 1
+                culDis += (rocks[i] - rocks[i - 1])
+            else:
+                return 0
+        else: # 최소 거리보다 같거나 큼
+            culDis = 0
+            if dis < minDis:
+                minDis = dis
+    if n == 0: # n개의 바위 부수기 성공
+        if chkDis <= minDis: # 목표 거리와 같거나 더 큼. 거리 늘려볼 필요 O
+            return 1
+        else: # 목표 거리보다 더 짧아짐
+            return 0
+    else: #다 못부숨. 더 부숴야하니까 거리 늘려봄
+        return 1
